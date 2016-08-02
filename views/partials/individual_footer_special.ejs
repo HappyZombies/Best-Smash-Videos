@@ -1,7 +1,5 @@
 <div class="text-center" id="character_footer">
 <% for (var i = 0; i < images.length; i++) { %>
-
     <a href="../<%= series %>/<%= images[i].substr(0, images[i].lastIndexOf('.')) || images[i] %>"><img src="/assets/img/sprites/<%= series %>/<%= images[i] %>"> </a>
-
 <% } %>
 </div>
