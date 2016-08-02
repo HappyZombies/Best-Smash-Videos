@@ -1,4 +1,4 @@
-# Best-Smash-Videos
+# Best Smash Videos
 
 ## Contribution
 
