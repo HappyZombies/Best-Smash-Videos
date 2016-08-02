@@ -1,13 +1,11 @@
 var bodyParser 			= require("body-parser");
 var urlencodedParser 	= bodyParser.urlencoded({extended: false});
-var tools 				= require('./mainControllers');
+var tools 				= require('./mainControllers'); //different name ? I suck at names.
 var character_images    = tools.getImages('smash64');
 
 
 
 module.exports = function(app, connection){
-
-	
 
 	app.get('/smash64', function(req, res){
 		res.render('smash64', {images: character_images});
@@ -26,5 +24,9 @@ module.exports = function(app, connection){
 	// app.post('/todo', urlencodedParser, function(req, res){
 	
 	// });
+
+	app.post('/smash64/:character', function(req, res){
+
+	});
 
 };
