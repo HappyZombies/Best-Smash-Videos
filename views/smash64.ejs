@@ -1,0 +1,17 @@
+<% include partials/header %>
+
+<div class="container" id="page">
+	<a href="/"><< Home</a>
+    <img src="/assets/img/smash64.png"  class="img-responsive center">
+
+    <div id="allSprites">
+        <% for (var i = 0; i < images.length; i++) { %>
+
+        <a href="smash64/<%= images[i].substr(0, images[i].lastIndexOf('.')) || images[i] %>"><img src="/assets/img/sprites/smash64/<%= images[i] %>"> </a>
+
+        <% } %>
+    </div>
+</div>
+
+
+<% include partials/footer %>

@@ -1,0 +1,75 @@
+body{
+    background: #091F38;
+    font-family: tahoma;
+    color: #6583A6;
+}
+
+hr {
+    border-top: 3px double #8c8b8b;
+    margin: 10px 0;
+}
+
+#page{
+	background-color: #3f434b;
+}
+#allSprites{
+    margin: 0 auto;
+    text-align: center;
+    width: 90%;
+    padding-bottom: 50px;
+}
+#allSprites a img {
+    transition: all .3s ease;
+    width: 190px;
+    height: 175px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(128, 128, 128, 0.1) inset;
+    margin: 3px;
+}
+#allSprites a img:hover {
+    transform: scale(1.1);
+    box-shadow: 0 15px 10px -10px rgba(31, 31, 31, 0.5);
+}
+.center{
+    margin: 0 auto;
+}
+.downvote:hover{
+    color: #B61420;
+}
+.upvote:hover{
+    color: #053dc7;
+}
+
+.upvote, .downvote{
+    cursor: pointer;
+    font-size: medium;
+    transition: 0.5s;
+}
+.all-smash-games{
+    margin-bottom:50px;
+}
+.footer{
+    height: 60px;
+    background-color: #2F333C ;
+}
+.videoTitle{
+    font-size: medium;
+    font-weight: normal;
+    margin-bottom: 1px;
+}
+.video{
+    margin: 0;
+    margin-bottom: 8px;
+    padding-left: 3px;
+}
+.youtubeLinkImg{
+    width: 70px;
+    margin-right: 10px;
+    float:left;
+}
+.container .text-muted {
+    margin: 20px 0;
+}
+
+#character_footer{
+    margin: 25px 0 0 0;
+}

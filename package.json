@@ -1,0 +1,21 @@
+{
+  "name": "smash",
+  "version": "1.0.0",
+  "description": "\"Smash Videos 2.0\"",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "smash",
+    "app"
+  ],
+  "author": "Daniel Reguero",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "ejs": "^2.4.2",
+    "express": "^4.14.0",
+    "mysql": "^2.11.1"
+  }
+}
