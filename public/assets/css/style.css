@@ -32,18 +32,7 @@ hr {
 .center{
     margin: 0 auto;
 }
-.downvote:hover{
-    color: #B61420;
-}
-.upvote:hover{
-    color: #053dc7;
-}
 
-.upvote, .downvote{
-    cursor: pointer;
-    font-size: medium;
-    transition: 0.5s;
-}
 .all-smash-games{
     margin-bottom:50px;
 }

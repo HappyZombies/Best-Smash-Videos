@@ -17,7 +17,6 @@ exports.getCharacterInfo = function(connection, series, character_slug, callback
     var data = [];
     connection.query(sql, function(err, res, fld ){
         if(err) return "SQL ERROR!";
-        console.dir(connection);
         callback(false, res);
     });
     return data;

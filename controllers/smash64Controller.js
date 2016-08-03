@@ -25,8 +25,11 @@ module.exports = function(app, connection){
 	
 	// });
 
-	app.post('/smash64/:character', function(req, res){
-
+	app.post('/smash64/:character', urlencodedParser, function(req, res){
+		console.log("Post submitted! Let's see...");
+		// console.dir(req.body);
+		// res.json(req.body);
+  		// setTimeout(function(){ console.log("Hello"); }, 3000);	
 	});
 
 };
