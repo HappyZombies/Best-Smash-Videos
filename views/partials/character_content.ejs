@@ -1,5 +1,6 @@
 <% include header %>
 
+
 <div class="container" id="page">
     <a href="/<%= series %>"><img src="/assets/img/<%= series %>.png"  class="img-responsive center" ></a>
     <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Add Video</button>
@@ -7,12 +8,12 @@
         <img src = "/assets/img/characters/<%= series %>/<%= character_videos[0].characters %>.png" class="img-responsive center">
         <hr>
         <% for (var i = 0; i < character_videos.length; i++) { %>
-            <h1><%= character_videos[i].id %> </h1>
-        <div class="video row">
-            <div class="likes col-md-2 text-right">
-                <span class="upvote" ><i class="fa fa-arrow-up" aria-hidden="true" id="upvote-<%= character_videos[i].id %>"></i></span>
-                <span class="totalVotes"><%= character_videos[i].votes %></span>
-                <span class="downvote"><i class="fa fa-arrow-down" aria-hidden="true" id="downvote-<%= character_videos[i].id %>"></i></span>
+            <!--<h1><%= character_videos[i].id %> </h1>-->
+        <div class="video row" id="video-<%= character_videos[i].id %>">
+            <div class="likes col-md-2 text-right upvote" id="topic">
+                <a class="upvote"></a>
+                <span class="totalVotes count"><%= character_videos[i].votes %></span>
+                <a class="downvote"></a>
             </div>
             <div class="info col-md-10">
                 <a href="<%= character_videos[i].url %>">
