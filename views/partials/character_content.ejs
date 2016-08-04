@@ -1,6 +1,5 @@
 <% include header %>
 
-
 <div class="container" id="page">
     <a href="/<%= series %>"><img src="/assets/img/<%= series %>.png"  class="img-responsive center" ></a>
     <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Add Video</button>
@@ -17,7 +16,7 @@
             </div>
             <div class="info col-md-10">
                 <a href="<%= character_videos[i].url %>">
-                    <img src="img.png" class="youtubeLinkImg">
+                    <img src="" class="youtubeLinkImg">
                     <p class="videoTitle"><%= character_videos[i].title %></p>
                     <small>Posted on <i><%= character_videos[i].date %> </i></small>
                 </a>
