@@ -9,6 +9,8 @@ app.set('view engine', 'ejs');
 //	Static files
 app.use(express.static('./public'));
 
+
+
 //Connect to the database
 
 var connection = mysql.createConnection({
@@ -40,9 +42,17 @@ app.get('/about', function(req, res){
 	res.render('about');
 });
 
+
+
 //	Fire controllers
 
 smash64Controller(app, connection);
+
+// 404
+
+app.get('*', function(req, res){
+	res.render('404');
+});
 
 //	Listen to port
 
