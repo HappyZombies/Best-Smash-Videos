@@ -2,17 +2,22 @@ $(document).ready(function(){
 	console.log("I am from JQuery!");
 
 	var callback = function(data) {
+		var numberToAdd = function() {
+			if(data.downvoted) return -1;
+			else if (data.upvoted) return 1;
+			else return 0;
+		}; // ?
 		$.ajax({
 			url: window.location.href,
 			type: 'post',
-			data: { id: data.id, up: data.upvoted, down: data.downvoted, star: data.starred } //Add Correct Data.
+			data: { id: data.id, up: data.upvoted, down: data.downvoted, count: data.count } //Add Correct Data.
 		});
 	};
 	
 	
 	$('.video').each(function(){
 		var numberID = this.id.replace( /^\D+/g, '');
-		$(this.firstElementChild).upvote();
+		$(this.firstElementChild).upvote({id: numberID, callback: callback});
 	});
 
 	//Interesting function https://www.sitepoint.com/display-youtube-thumbnails-easy-jquery/
