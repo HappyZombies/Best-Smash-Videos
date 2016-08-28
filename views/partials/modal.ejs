@@ -9,9 +9,10 @@
         <h4 class="modal-title">Submit a Video</h4>
       </div>
       <div class="modal-body">
-        <form>
-        <input type="text">
-        <button>Submit</button>
+        <form id="modalForm">
+          <input type="text" id="title" name="title" placeholder="Title" maxlength="255" required>
+          <input type="url" id="url" name="url" placeholder="URL" maxlength="255" required>
+          <button id="submitForm">Submit</button>
         </form>
       </div>
       <div class="modal-footer">
