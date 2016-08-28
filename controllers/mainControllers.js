@@ -1,6 +1,5 @@
 var fs = require('fs');
 
-
 exports.getImages = function(series) {
     var img = [];
     console.log("Getting images ");
@@ -13,23 +12,48 @@ exports.getImages = function(series) {
     return img;
 };
 
-exports.getCharacterInfo = function(connection, series, character_slug, filter, callback){
+exports.getCharacterInfo = function(request, response, connection, series, character_slug, filter, callback){
+    var numRows;
+    var numPerPage = 5; //five right now for testing.
+    var page = parseInt(request.query.page, 10) || 0;
+    var numPages;
+    var skip = page * numPerPage;
+    // Here we compute the LIMIT parameter for MySQL query
+    var limit = skip + ',' + numPerPage;
     var sql = "";
     if(filter == 'top'){
         // Top, let's sort by vote.
-        sql  = "SELECT * FROM `"+series+"` WHERE `characters` = "+connection.escape(character_slug) + " AND `votes` > -5 ORDER BY `votes` DESC";
+        sql  = "SELECT * FROM `"+series+"` WHERE `characters` = "+connection.escape(character_slug) + " AND `votes` > -5 ORDER BY `votes` DESC LIMIT "+limit;
     }else{
         // Something besides top was specified...whatever it was we don't care, just sort it by new.
-        sql  = "SELECT * FROM `"+series+"` WHERE `characters` = "+connection.escape(character_slug) + " AND `votes` > -5 ORDER BY `date` DESC";
+        sql  = "SELECT * FROM `"+series+"` WHERE `characters` = "+connection.escape(character_slug) + " AND `votes` > -5 ORDER BY `date` DESC LIMIT "+limit;
     }
-
-    var data = [];
-    console.log("Going to retrieve video content");
+    // Code below was taken from https://github.com/gabhi/mysql-nodejs-pagination/blob/master/index.js , modifications were made to not use bluebird.
+    connection.query("SELECT count(*) as numRows FROM "+(series), function(err, res, fld){
+        if(err) return "SQL ERROR! on getting character Info";
+        numRows = res[0].numRows;
+        numPages = Math.ceil(numRows / numPerPage);
+    });
     connection.query(sql, function(err, res, fld ){
         if(err) return "SQL ERROR! on getting character Info";
-        callback(false, res);
+        var responsePayload = {
+            results: res
+        };
+        if(page < numPages){
+            responsePayload.pagination = {
+                current: page,
+                totalPages: numPages,
+                perPage: numPerPage,
+                previous: page > 0 ? page - 1 : undefined,
+                next: page < numPages - 1 ? page + 1 : undefined
+            }
+        }else{
+            responsePayload.pagination = {
+                err: 'Queried page '+page+" is >= to max page number "+numPages
+            }
+        }
+        callback(false, responsePayload);
     });
-    return data;
 };
 
 exports.updateVideo = function(connection, series, id, newVote){
