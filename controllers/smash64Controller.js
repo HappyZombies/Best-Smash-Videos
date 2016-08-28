@@ -34,9 +34,9 @@ module.exports = function(app, connection){
             // Sort by newest.
             console.log("Sorting by newest")
             //Is this okay ? Eh it works.
-            tools.getCharacterInfo(connection, "videos64", req.params.character, req.params.filter, function(req, response){
+            tools.getCharacterInfo(req, res, connection, "videos64", req.params.character, req.params.filter, function(req, response){
                 console.log("Getting video");
-                res.render('characters64', {character_videos: response, images: character_images});
+                res.render('characters64', {character_videos: response.results, images: character_images, pagination: response.pagination});
             });
         }else{
             // 404 error. They gave us something that does not exist.
@@ -59,6 +59,7 @@ module.exports = function(app, connection){
 	});
 
     app.post('/smash64/:character/submit', urlencodedParser, function(req, res){
+        console.log("Going to add video!");
         var obj = {};
         obj = req.body;
         obj.series = 'videos64';
