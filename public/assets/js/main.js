@@ -8,8 +8,8 @@ $(document).ready(function(){
 			else return 0;
 		}; // ?
 		$.ajax({
-			url: window.location.href,
-			type: 'post',
+			url: window.location.href.replace(new RegExp("/new|/top"),''),
+			type: 'POST',
 			data: { id: data.id, up: data.upvoted, down: data.downvoted, count: data.count } //Add Correct Data.
 		});
 	};
@@ -20,9 +20,55 @@ $(document).ready(function(){
 		$(this.firstElementChild).upvote({id: numberID, callback: callback});
 	});
 
+	$('#modalForm').on('submit', function(e){
+        e.preventDefault();
+        var okay = true;
+        var paramObj = {};
+        var errorMessage = "";
+        $.each($('#modalForm').serializeArray(), function(_, kv) {
+            paramObj[kv.name] = kv.value;
+        });
+        var matches = paramObj.url.match(/watch\?v=([a-zA-Z0-9\-_]+)/);
+        if (!matches)
+        {
+            errorMessage += "- The link must be a YouTube link.\n";
+            okay = false;
+        }
+        if(paramObj.url.length == 0 || paramObj.title.length == 0){
+            errorMessage += "- You must not leave anything blank.\n";
+            okay = false;
+        }
+
+        if(paramObj.url.length > 255 || paramObj.title.length > 255){
+            errorMessage += "- Length must not be over 255 characters\n";
+            okay = false;
+        }
+
+        console.dir(paramObj.title.length);
+        console.dir(paramObj);
+        if(okay){
+            $.ajax({
+                url: window.location.href.replace(new RegExp("/new|/top"),'')+'/submit',
+                type: 'POST',
+                data: $('#modalForm').serialize(),
+                success: function(data){
+                    console.log("Success! Refreshing");
+                    console.dir(window.location.reload(true));
+                }
+            });
+        }else{
+            alert("There were errors!\n"+errorMessage);
+        }
+    });
+	
 	//Interesting function https://www.sitepoint.com/display-youtube-thumbnails-easy-jquery/
 	$.extend({
   	jYoutube: function( url, size ){
+        var matches = url.match(/watch\?v=([a-zA-Z0-9\-_]+)/);
+        if (!matches)
+        {
+            return "https://img.buzzfeed.com/buzzfeed-static/static/user_images/web03/2010/4/9/10/questionmark-14334-1270825001-154_large.jpg";
+        }
 	    if(url === null){ return ""; }
 
 	    size = (size === null) ? "big" : size;

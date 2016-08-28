@@ -22,19 +22,29 @@ module.exports = function(app, connection){
 		res.render('smash64', {images: character_images});
 	});
 
-	app.get('/smash64/:character', function(req, res){
+	app.get('/smash64/:character/:filter?', function(req, res){
+        console.dir(req.params);
+        console.log("Request made to "+req.params.character);
         if(!(all_characters(character_images).indexOf(req.params.character) > -1)){
             console.log("/"+req.params.character+" NOT found! Redirecting");
             res.render('404');
             return false;
         }
+        if(req.params.filter == undefined || req.params.filter == 'new' || req.params.filter == 'top'){
+            // Sort by newest.
+            console.log("Sorting by newest")
+            //Is this okay ? Eh it works.
+            tools.getCharacterInfo(connection, "videos64", req.params.character, req.params.filter, function(req, response){
+                console.log("Getting video");
+                res.render('characters64', {character_videos: response, images: character_images});
+            });
+        }else{
+            // 404 error. They gave us something that does not exist.
+            console.log("/"+req.params.character+" NOT found! Redirecting");
+            res.render('404');
+            return false;
+        }
 
-        console.log("Request made to "+req.params.character);
-        //Is this okay ? Eh it works.
-        tools.getCharacterInfo(connection, "videos64", req.params.character, function(req, response){
-            console.log("Getting video");
-            res.render('characters64', {character_videos: response, images: character_images}); 
-        });
 
 
 	});
@@ -44,8 +54,19 @@ module.exports = function(app, connection){
 	// });
 
 	app.post('/smash64/:character', urlencodedParser, function(req, res){
-		console.log("Post 'submitted'! Let's see...let us update the video");
+		console.log("Upvote 'submitted'! Let's see...let us update the video");
 		tools.updateVideo(connection, "videos64", req.body.id, req.body.count);
 	});
+
+    app.post('/smash64/:character/submit', urlencodedParser, function(req, res){
+        var obj = {};
+        obj = req.body;
+        obj.series = 'videos64';
+        obj.character = req.params.character;
+        obj.votes = 0;
+        obj.display = 1; //TODO , is display even needed ? Look into.
+        tools.addVideo(connection, obj);
+        res.send(req.body); //Important!
+    });
 
 };
