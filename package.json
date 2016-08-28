@@ -1,6 +1,6 @@
 {
   "name": "smash",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "\"Smash Videos 2.0\"",
   "main": "app.js",
   "scripts": {
