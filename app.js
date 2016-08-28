@@ -16,6 +16,7 @@ var express 			= require('express');
 var mysql 				= require('mysql');
 var app 				= express();
 var smash64Controller 	= require('./controllers/smash64Controller');
+var meleeController 	= require('./controllers/meleeController');
 
 //	Set up template engine 
 app.set('view engine', 'ejs');
@@ -24,7 +25,6 @@ app.set('view engine', 'ejs');
 app.use(express.static('./public'));
 
 //Connect to the database
-
 var connection = mysql.createConnection({
 	host: '127.0.0.1',
 	user: 'root',
@@ -54,9 +54,9 @@ app.get('/about', function(req, res){
 	res.render('about');
 });
 
-//	Fire controllers
-
+//	Fire our controllers
 smash64Controller(app, connection);
+meleeController(app, connection);
 
 // 404
 app.get('*', function(req, res){

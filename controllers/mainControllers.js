@@ -2,7 +2,7 @@ var fs = require('fs');
 
 exports.getImages = function(series) {
     var img = [];
-    console.log("Getting images ");
+    console.log("Retrieving images");
     fs.readdir('public/assets/img/sprites/' + series, function (err, files) {
         if (err) throw err;
         files.forEach(function(file){
@@ -12,7 +12,7 @@ exports.getImages = function(series) {
     return img;
 };
 
-exports.getCharacterInfo = function(request, response, connection, series, character_slug, filter, callback){
+exports.getCharacterInfo = function(request, connection, series, callback){
     var numRows;
     var numPerPage = 5; //five right now for testing.
     var page = parseInt(request.query.page, 10) || 0;
@@ -21,15 +21,16 @@ exports.getCharacterInfo = function(request, response, connection, series, chara
     // Here we compute the LIMIT parameter for MySQL query
     var limit = skip + ',' + numPerPage;
     var sql = "";
-    if(filter == 'top'){
+    if(request.params.filter == 'top'){
         // Top, let's sort by vote.
-        sql  = "SELECT * FROM `"+series+"` WHERE `characters` = "+connection.escape(character_slug) + " AND `votes` > -5 ORDER BY `votes` DESC LIMIT "+limit;
+        sql  = "SELECT * FROM `"+series+"` WHERE `characters` = "+connection.escape(request.params.character) + " AND `votes` > -5 ORDER BY `votes` DESC LIMIT "+limit;
     }else{
         // Something besides top was specified...whatever it was we don't care, just sort it by new.
-        sql  = "SELECT * FROM `"+series+"` WHERE `characters` = "+connection.escape(character_slug) + " AND `votes` > -5 ORDER BY `date` DESC LIMIT "+limit;
+        sql  = "SELECT * FROM `"+series+"` WHERE `characters` = "+connection.escape(request.params.character) + " AND `votes` > -5 ORDER BY `date` DESC LIMIT "+limit;
     }
+    console.log(sql);
     // Code below was taken from https://github.com/gabhi/mysql-nodejs-pagination/blob/master/index.js , modifications were made to not use bluebird.
-    connection.query("SELECT count(*) as numRows FROM "+(series), function(err, res, fld){
+    connection.query("SELECT count(*) as numRows FROM "+(series)+" WHERE `characters`="+connection.escape(request.params.character), function(err, res, fld){
         if(err) return "SQL ERROR! on getting character Info";
         numRows = res[0].numRows;
         numPages = Math.ceil(numRows / numPerPage);
@@ -56,8 +57,8 @@ exports.getCharacterInfo = function(request, response, connection, series, chara
     });
 };
 
-exports.updateVideo = function(connection, series, id, newVote){
-    var sql = "UPDATE `" + series + "` SET `votes` =  "+newVote+" WHERE `id` = "+id;
+exports.updateVideoVote = function(connection, series, request){
+    var sql = "UPDATE `" + series + "` SET `votes` =  "+request.body.count+" WHERE `id` = "+request.body.id;
     console.log("Updating video...");
     connection.query(sql);
 };
