@@ -8,7 +8,7 @@ $(document).ready(function(){
 			else return 0;
 		}; // ?
 		$.ajax({
-			url: window.location.href.replace(new RegExp("/new|/top"),''),
+			url: window.location.href.replace(/\/new|\/top|\?page=[0-9]/g,''),
 			type: 'POST',
 			data: { id: data.id, up: data.upvoted, down: data.downvoted, count: data.count } //Add Correct Data.
 		});
@@ -48,12 +48,12 @@ $(document).ready(function(){
         console.dir(paramObj);
         if(okay){
             $.ajax({
-                url: window.location.href.replace(new RegExp("/new|/top"),'')+'/submit',
+                url: window.location.href.replace(/\/new|\/top|\?page=[0-9]/g,'')+'/submit',
                 type: 'POST',
                 data: $('#modalForm').serialize(),
                 success: function(data){
                     console.log("Success! Refreshing");
-                    console.dir(window.location.reload(true));
+                    window.location.replace(window.location.href.replace(/\/new|\/top|\?page=[0-9]/g,''));
                 }
             });
         }else{
@@ -86,7 +86,11 @@ $(document).ready(function(){
 	    }
 	  }
 	});
-
+    // $('.page-link').each(function() {
+    //     if ($(this).prop('href') == window.location.href) {
+    //         $($(this)[0].parentNode).addClass('active');
+    //     }
+    // });
 	// Add image to link.
 	$('.youtubeLinkImg').each(function(){
 		this.src = $.jYoutube(this.parentElement.href, 'small');
