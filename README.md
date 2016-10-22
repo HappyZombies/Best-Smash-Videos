@@ -1,4 +1,5 @@
 # Best Smash Videos
+#SITE IS ON HOLD CURRENTLY, WILL NEED TO DO A REDO SOMETIME.
 
 ## Contribution
 
