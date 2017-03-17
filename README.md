@@ -1,5 +1,6 @@
 # Best Smash Videos
-#SITE IS ON HOLD CURRENTLY, WILL NEED TO DO A REDO SOMETIME.
+~~SITE IS ON HOLD CURRENTLY, WILL NEED TO DO A REDO SOMETIME.~~
+#Project has been adandoned. This was probably my first 'big' node.js app and oh my....Keep for reference so I can remind myself how far I have gotten.
 
 ## Contribution
 
